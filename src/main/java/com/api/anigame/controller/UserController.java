@@ -5,6 +5,8 @@ import com.api.anigame.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/u")
 public class UserController {
@@ -21,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUser (@PathVariable Long id) {
+    public ResponseEntity<?> getUser (@PathVariable UUID id) {
         return userService.get(id);
     }
 
@@ -31,12 +33,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser (@PathVariable Long id, @RequestBody UserReqDTO userReqDTO) {
+    public ResponseEntity<?> updateUser (@PathVariable UUID id, @RequestBody UserReqDTO userReqDTO) {
         return userService.update(id, userReqDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser (@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser (@PathVariable UUID id) {
         return userService.delete(id);
     }
 
