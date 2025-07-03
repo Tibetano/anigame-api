@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_refresh_token")
+@Table(name = "tb_refresh_tokens")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +18,7 @@ import java.util.UUID;
 public class RefreshTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "refresh_token_id")
     private UUID id;
     Instant expiresAt;
 

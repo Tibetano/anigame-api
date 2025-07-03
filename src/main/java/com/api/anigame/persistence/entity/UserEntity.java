@@ -18,13 +18,13 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @Column(name = "user_id", columnDefinition = "uuid DEFAULT gen_random_uuid()", updatable = false, nullable = false)
     private UUID id;
     @Column(unique = true)
     private String username;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_users_roles",
             joinColumns = @JoinColumn(name = "user_id"),//aqui é o nome da coluna que vai entrar a chave do user.
