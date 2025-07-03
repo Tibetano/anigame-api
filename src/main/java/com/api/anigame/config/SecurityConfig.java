@@ -49,14 +49,14 @@ public class SecurityConfig {
 
     @Bean
     public JwtEncoder jwtEncoder (){
-        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(privateKey).build();
+        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
         var jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
 
     @Bean
     public JwtDecoder jwtDecoder () {
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+        return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
     }
 
     @Bean

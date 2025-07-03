@@ -1,9 +1,9 @@
 package com.api.anigame.controller;
 
+import com.api.anigame.dto.RefreshTokenReqDTO;
 import com.api.anigame.dto.UserCredentialsReqDTO;
 import com.api.anigame.service.AuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +24,9 @@ public class AuthController {
         return authService.login(credentialsReqDTO);
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<?> refreshLogin (@RequestBody Jwt refreshToken){
-
-        return ResponseEntity.ok("Ok!");
+    @PostMapping("/login/refresh")
+    public ResponseEntity<?> refreshLogin (@RequestBody RefreshTokenReqDTO refreshTokenReqDTO){
+        return authService.refreshLogin(refreshTokenReqDTO.refreshToken());
     }
-
 
 }
