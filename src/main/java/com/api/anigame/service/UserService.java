@@ -59,7 +59,7 @@ public class UserService {
             throw new RuntimeException("User not found.");
         }
         user.get().setUsername(userReqDTO.username() != null ? userReqDTO.username() : user.get().getUsername());
-        user.get().setPassword(userReqDTO.password() != null ? userReqDTO.password() : user.get().getPassword());
+        user.get().setPassword(userReqDTO.password() != null ? bCryptPasswordEncoder.encode(userReqDTO.password()) : user.get().getPassword());
         userRepository.save(user.get());
         return ResponseEntity.status(HttpStatus.OK).body("User updated.");
     }
