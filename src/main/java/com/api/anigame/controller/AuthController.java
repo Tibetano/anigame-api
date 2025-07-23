@@ -29,4 +29,9 @@ public class AuthController {
         return authService.refreshLogin(refreshTokenReqDTO.refreshToken());
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout (@RequestBody RefreshTokenReqDTO refreshTokenReqDTO) {
+        return authService.revokeRefreshToken(refreshTokenReqDTO.refreshToken());
+    }
+
 }

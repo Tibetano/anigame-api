@@ -51,9 +51,13 @@ public class AuthService {
     @Transactional
     public ResponseEntity<?> refreshLogin (String oldRefreshToken) {
         var userId = tokenService.validateRefreshToken(oldRefreshToken)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh tokens."));
+                .getUser().getId().toString();
         var user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("User not found."));
         return ResponseEntity.ok(getCredentials(user));
+    }
+
+    public ResponseEntity<?> revokeRefreshToken (String refreshToken) {
+        return ResponseEntity.ok(tokenService.revokeRefreshToken(refreshToken));
     }
 }
