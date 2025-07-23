@@ -24,7 +24,7 @@ public class UserEntity {
     private String username;
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_users_roles",
             joinColumns = @JoinColumn(name = "user_id"),//aqui é o nome da coluna que vai entrar a chave do user.
