@@ -22,13 +22,11 @@ public class AuthService {
     @Value("${expire-times.refresh-token}")
     private Long refreshTokenExpiresTime;
 
-    private final UserRepository userRepository;
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
 
-    public AuthService(UserRepository userRepository, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, TokenService tokenService) {
-        this.userRepository = userRepository;
+    public AuthService(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, TokenService tokenService) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.tokenService = tokenService;
@@ -43,19 +41,18 @@ public class AuthService {
     }
 
     public ResponseEntity<?> login (UserCredentialsReqDTO userCredentialsReqDTO) {
-        var user = userRepository.findByUsername(userCredentialsReqDTO.username());
-        if (user.isEmpty() || !bCryptPasswordEncoder.matches(userCredentialsReqDTO.password(),user.get().getPassword())) {
+        var user = userService.findByUsername(userCredentialsReqDTO.username());
+        if (!bCryptPasswordEncoder.matches(userCredentialsReqDTO.password(),user.getPassword())) {
             throw new BadCredentialsException("Invalid user or password!");
         }
-        return ResponseEntity.ok(getCredentials(user.get()));
+        return ResponseEntity.ok(getCredentials(user));
     }
 
     @Transactional
     public ResponseEntity<?> refreshLogin (String oldRefreshToken) {
         var userId = tokenService.validateRefreshToken(oldRefreshToken)
                 .getUser().getId().toString();
-        var user = userRepository.findById(UUID.fromString(userId))
-                .orElseThrow(() -> new RuntimeException("User not found."));
+        var user = userService.findById(UUID.fromString(userId));
         return ResponseEntity.ok(getCredentials(user));
     }
 
@@ -64,9 +61,7 @@ public class AuthService {
     }
 
     public ResponseEntity<?> getProfile(String token) {
-
         var userId = tokenService.getUserIdFromToken(token);
-
-        return ResponseEntity.ok(userService.get(userId));
+        return userService.get(userId);
     }
 }

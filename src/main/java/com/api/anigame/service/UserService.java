@@ -7,6 +7,7 @@ import com.api.anigame.persistence.repository.RoleRepository;
 import com.api.anigame.persistence.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,20 @@ public class UserService {
     public ResponseEntity<?> delete (UUID id) {
         userRepository.deleteById(id);
         return ResponseEntity.ok("User deleted.");
+    }
+
+    public UserEntity findByUsername (String username) {
+        var user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            throw new BadCredentialsException("Invalid user or password!");
+        }
+        return user.get();
+    }
+
+    public UserEntity findById (UUID userId) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+        return user;
     }
 
 }
