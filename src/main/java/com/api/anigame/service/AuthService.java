@@ -23,11 +23,13 @@ public class AuthService {
     private Long refreshTokenExpiresTime;
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
 
-    public AuthService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, TokenService tokenService) {
+    public AuthService(UserRepository userRepository, UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.tokenService = tokenService;
     }
@@ -59,5 +61,12 @@ public class AuthService {
 
     public ResponseEntity<?> revokeRefreshToken (String refreshToken) {
         return ResponseEntity.ok(tokenService.revokeRefreshToken(refreshToken));
+    }
+
+    public ResponseEntity<?> getProfile(String token) {
+
+        var userId = tokenService.getUserIdFromToken(token);
+
+        return ResponseEntity.ok(userService.get(userId));
     }
 }

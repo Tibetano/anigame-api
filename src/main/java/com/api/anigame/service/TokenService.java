@@ -86,4 +86,8 @@ public class TokenService {
         refreshTokenRepository.deleteById(validatedToken.getId());
         return "RefreshToken revoked successfully!";
     }
+
+    public UUID getUserIdFromToken (String token) {
+        return UUID.fromString(jwtDecoder.decode(token).getSubject());
+    }
 }
