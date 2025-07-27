@@ -43,7 +43,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/u").permitAll()
                         .requestMatchers(HttpMethod.GET,"/u", "/u/{id}").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/auth/login","/auth/login/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login","/auth/refresh").permitAll()
                         .anyRequest().authenticated())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Define a origem do CORS
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF se for API REST
@@ -57,7 +57,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:8081")); // Origem do frontend
+        config.setAllowedOrigins(List.of("http://localhost:8085")); // Origem do frontend
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // Se for necessário enviar cookies/headers de auth
