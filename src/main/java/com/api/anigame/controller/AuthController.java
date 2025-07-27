@@ -21,7 +21,7 @@ public class AuthController {
         return authService.login(credentialsReqDTO);
     }
 
-    @PostMapping("/login/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<?> refreshLogin (@RequestBody RefreshTokenReqDTO refreshTokenReqDTO){
         return authService.refreshLogin(refreshTokenReqDTO.refreshToken());
     }
