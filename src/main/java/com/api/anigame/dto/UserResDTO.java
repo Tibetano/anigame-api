@@ -8,7 +8,7 @@ import java.util.UUID;
 public record UserResDTO(
         UUID id,
         String username,
-        String name,
+        String firstName,
         String lastName,
         String cpf,
         String email,
