@@ -4,6 +4,7 @@ package com.api.anigame.config;
 import com.api.anigame.exception.ResourceNotFoundException;
 import com.api.anigame.persistence.entity.RoleEntity;
 import com.api.anigame.persistence.entity.UserEntity;
+import com.api.anigame.persistence.entity.enumerate.Gender;
 import com.api.anigame.persistence.repository.RoleRepository;
 import com.api.anigame.persistence.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Configuration
@@ -44,6 +46,12 @@ public class AdminUserConfig implements CommandLineRunner {
                     var user = new UserEntity();
                     user.setUsername("admin");
                     user.setPassword(passwordEncoder.encode("123"));
+                    user.setFirstName("admin");
+                    user.setLastName("admin");
+                    user.setCpf("99999999999");
+                    user.setEmail("admin@email.com");
+                    user.setGender(Gender.MALE);
+                    user.setDateOfBirth(LocalDate.of(1,1,1));
                     user.setRoles(Set.of(roleAdmin.get()));
                     userRepository.save(user);
                 }
