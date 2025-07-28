@@ -43,7 +43,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,"/u").permitAll()
                         .requestMatchers(HttpMethod.GET,"/u", "/u/{id}").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/auth/login","/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/auth/login","/auth/refresh","/auth/register").permitAll()
                         .anyRequest().authenticated())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Define a origem do CORS
                 .csrf(AbstractHttpConfigurer::disable) // Desabilita CSRF se for API REST

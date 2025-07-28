@@ -2,9 +2,13 @@ package com.api.anigame.controller;
 
 import com.api.anigame.dto.RefreshTokenReqDTO;
 import com.api.anigame.dto.UserCredentialsReqDTO;
+import com.api.anigame.dto.UserReqDTO;
 import com.api.anigame.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,4 +40,12 @@ public class AuthController {
         return authService.getProfile(authorizationHeader.replace("Bearer ",""));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser (@RequestBody UserReqDTO userReqDTO, UriComponentsBuilder uriBuilder) {
+        var newUser = authService.register(userReqDTO);
+        URI location = uriBuilder.path("/users/{id}")
+                .buildAndExpand(newUser.id())
+                .toUri();
+        return ResponseEntity.created(location).body(newUser);
+    }
 }
