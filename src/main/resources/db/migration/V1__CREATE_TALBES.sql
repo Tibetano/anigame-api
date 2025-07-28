@@ -2,13 +2,20 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE tb_users (
     user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL UNIQUE,
+    cpf VARCHAR(100) UNIQUE,
+    email VARCHAR(150) NOT NULL,
+    gender VARCHAR(100) NOT NULL,
+    date_of_birth DATE NOT NULL
 );
 
 CREATE TABLE tb_roles (
     role_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE
+    name VARCHAR(15) NOT NULL UNIQUE
 );
 
 CREATE TABLE tb_refresh_tokens (
