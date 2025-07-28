@@ -1,11 +1,13 @@
 package com.api.anigame.persistence.entity;
 
+import com.api.anigame.persistence.entity.enumerate.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,7 +24,22 @@ public class UserEntity {
     private UUID id;
     @Column(unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+    @Column(unique = true)
+    private String cpf;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

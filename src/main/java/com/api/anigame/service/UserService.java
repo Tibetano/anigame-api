@@ -1,8 +1,10 @@
 package com.api.anigame.service;
 
 import com.api.anigame.dto.UserReqDTO;
+import com.api.anigame.dto.UserResDTO;
 import com.api.anigame.persistence.entity.RoleEntity;
 import com.api.anigame.persistence.entity.UserEntity;
+import com.api.anigame.persistence.entity.enumerate.Gender;
 import com.api.anigame.persistence.repository.RoleRepository;
 import com.api.anigame.persistence.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public ResponseEntity<?> create (UserReqDTO userReqDTO) {
+    public UserResDTO create (UserReqDTO userReqDTO) {
         var userRole = roleRepository.findByName(RoleEntity.Values.BASIC.name());
         var encodedPassword = bCryptPasswordEncoder.encode(userReqDTO.password());
 
@@ -38,10 +40,26 @@ public class UserService {
         var newUser = UserEntity.builder()
                 .username(userReqDTO.username())
                 .password(encodedPassword)
+                .firstName(userReqDTO.firstName())
+                .lastName(userReqDTO.lastName())
+                .cpf(userReqDTO.cpf())
+                .email(userReqDTO.email())
+                .gender(Gender.valueOf(userReqDTO.gender()))
+                .dateOfBirth(userReqDTO.dateOfBirth())
                 .roles(Set.of(userRole.get()))
                 .build();
         var savedUser = userRepository.save(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+
+        return new UserResDTO(
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getFirstName(),
+                savedUser.getLastName(),
+                savedUser.getCpf(),
+                savedUser.getEmail(),
+                savedUser.getGender(),
+                savedUser.getDateOfBirth()
+        );
     }
 
     public ResponseEntity<?> get (UUID id) {
