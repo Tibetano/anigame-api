@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.api</groupId>
-	<artifactId>anigame</artifactId>
+	<artifactId>anigame-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>anigame</name>
 	<description>Anigame api project.</description>
@@ -85,6 +85,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
