@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.api</groupId>
-	<artifactId>anigame-backend</artifactId>
+	<artifactId>anigame-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>anigame</name>
 	<description>Anigame api project.</description>
